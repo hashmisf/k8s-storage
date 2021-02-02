@@ -1,0 +1,50 @@
+-------------------------------------------------
+		    K8s Storage
+-------------------------------------------------
+8.1 Create a Pod with Empty Volume (Two Container Pod)
+
+        kubectl create -f pod-empty-vol.yaml
+
+8.2 Open a terminal to nginx container and busybox container and check volume (if pod has more than one container, use -c <container-name>)
+
+        kubectl exec -it empty-vol-pd -c nginx -- /bin/sh
+
+        cd /my-volume
+
+        echo 'Hello World' > test
+
+        cat test
+
+        exit
+
+        kubectl exec -it empty-vol-pd -c busybox -- /bin/sh
+
+        cd /my-volume
+
+        cat test
+
+        exit
+
+8.3 Create a PersistentVolume
+
+        kubectl create -f pv.yaml
+
+        kubectl get pv
+
+8.4 Create a PersistentVolumeClaim
+
+        kubectl create -f pvc.yaml
+
+        kubectl get pvc # will show Status as 'Bound'
+
+        kubectl get pv # will show Status as 'Bound' as well
+
+8.5 Create a Pod using PersistentVolumeClaim
+
+        kubectl create -f pod-pvc.yaml
+
+        kubectl exec -it pod-pvc -- /bin/sh
+
+        cd /etc/foo
+
+        exit

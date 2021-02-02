@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: empty-vol-pd
+spec:
+  volumes:
+  - name: myvolume
+    emptyDir: {}
+  containers:
+  - image: nginx
+    name: nginx
+    volumeMounts:
+    - mountPath: /my-volume
+      name: myvolume
+  - image: busybox
+    name: busybox
+    args:
+    - /bin/sh
+    - -c
+    - sleep 3600
+    volumeMounts:
+    - mountPath: /my-volume
+      name: myvolume
